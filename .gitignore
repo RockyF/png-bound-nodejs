@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+/png-bound-nodejs.iml
+/.idea/
+/package-lock.json
