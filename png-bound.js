@@ -5,11 +5,28 @@
  */
 
 const PNG = require('pngjs').PNG;
+const fs = require('fs');
 
 exports.getBound = function(data) {
+	if(typeof data === 'string'){
+		return new Promise((resolve, reject)=>{
+			fs.readFile(data, (err, fileData)=>{
+				if(err){
+					reject(err);
+				}else{
+					resolve(getBound(fileData));
+				}
+			});
+		});
+	}else{
+		return getBound(data);
+	}
+};
+
+function getBound(fileData){
 	return new Promise((resolve, reject)=>{
 		let png = new PNG();
-		png.parse(data, function (err, imgData) {
+		png.parse(fileData, function (err, imgData) {
 			if(err){
 				reject(err);
 			}else{
@@ -17,7 +34,7 @@ exports.getBound = function(data) {
 			}
 		});
 	});
-};
+}
 
 function process(imgData) {
 	let {width, height, data} = imgData;
