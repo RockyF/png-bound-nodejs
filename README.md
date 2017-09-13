@@ -22,4 +22,6 @@ fs.readFile('png file', function (err, data) {
 		}
 	);
 });
+
+//out: {x, y, width, height}
 ````
