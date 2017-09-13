@@ -1,7 +1,13 @@
 # png-bound-nodejs
 get png bound with nodejs **(ES6)**
 
-##example:
+## install
+
+````
+npm install --save png-bound-nodejs
+````
+
+## example
 ````javascript
 const {getBound} = require('png-bound-nodejs');
 
