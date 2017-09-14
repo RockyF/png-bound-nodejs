@@ -7,29 +7,29 @@
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
 
-exports.getBound = function(data) {
-	if(typeof data === 'string'){
-		return new Promise((resolve, reject)=>{
-			fs.readFile(data, (err, fileData)=>{
-				if(err){
+exports.getBound = function (data) {
+	if (typeof data === 'string') {
+		return new Promise((resolve, reject) => {
+			fs.readFile(data, (err, fileData) => {
+				if (err) {
 					reject(err);
-				}else{
+				} else {
 					resolve(getBound(fileData));
 				}
 			});
 		});
-	}else{
+	} else {
 		return getBound(data);
 	}
 };
 
-function getBound(fileData){
-	return new Promise((resolve, reject)=>{
+function getBound(fileData) {
+	return new Promise((resolve, reject) => {
 		let png = new PNG();
 		png.parse(fileData, function (err, imgData) {
-			if(err){
+			if (err) {
 				reject(err);
-			}else{
+			} else {
 				resolve(process(imgData));
 			}
 		});
@@ -45,19 +45,23 @@ function process(imgData) {
 	let h = getBorders(false, 0, width, 0, height);
 	let v = getBorders(true, 0, width, 0, height);
 
-	if(h.length > 1){
-		if(h[0].transparent){
+	if (h.length > 1) {
+		if (h[0].transparent) {
 			bound.x = h[1].p;
 		}
 		let lh = h.length - 1;
 		bound.width = (h[lh].transparent ? h[lh].p : width) - bound.x;
+	} else if (h[0].transparent) {
+		bound.width = 0;
 	}
-	if(v.length > 1){
-		if(v[0].transparent){
+	if (v.length > 1) {
+		if (v[0].transparent) {
 			bound.y = v[1].p;
 		}
 		let lv = v.length - 1;
 		bound.height = (v[lv].transparent ? v[lv].p : height) - bound.y;
+	} else if (v[0].transparent) {
+		bound.height = 0;
 	}
 
 	return bound;
